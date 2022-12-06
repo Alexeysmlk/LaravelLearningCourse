@@ -40,33 +40,43 @@
                 <!-- column -->
                 <div class="col-12">
                     <div class="card">
-                        <a href="{{route('admin.categories.create')}}" class="btn btn-success">Add</a>
+                        <div class="d-flex justify-content-start">
+                            <a href="{{route('admin.products.create')}}" class="btn btn-success p-4 ms-5">Add new product</a>
+                        </div>
                         <div class="table-responsive">
                             <table class="table v-middle">
                                 <thead>
                                 <tr class="bg-light">
                                     <th class="border-top-0">Id</th>
                                     <th class="border-top-0">Name</th>
-                                    <th class="border-top-0">Is Active</th>
-                                    <th class="border-top-0">Actions</th>
+                                    <th class="border-top-0">Category</th>
+                                    <th class="border-top-0">Price</th>
+                                    <th class="border-top-0">Picture</th>
+                                    <th class="border-top-0">Status</th>
+                                    <th class="border-top-0">Description</th>
+                                    <th class="border-top-0">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($categories as $category)
+                                @foreach($products as $product)
                                 <tr>
+                                    <td>{{$product->id}}</td>
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->id_category}}</td>
+                                    <td>{{\App\Models\Product::getRealPrice($product->price)}}</td>
                                     <td>
-                                        {{$category->id}}
+                                        <img src="{{$product->img}}" alt="picture of product">
                                     </td>
-                                    <td>{{$category->name}}</td>
-                                    <td>{{$category->active ? 'active' : 'not active'}}</td>
+                                    <td>{{$product->status ? 'active' : 'not active'}}</td>
+                                    <td>{{$product->description}}</td>
                                     <td>
-                                        <a href="{{route('admin.categories.edit', ['category' => $category->id])}}">Edit</a>
+                                        <a href="{{route('admin.products.edit', ['product' => $product->id])}}" class="label label-danger">Edit</a>
                                     </td>
                                 </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-                            {!! $categories->links('vendor.pagination.bootstrap-5') !!}
+                            {!! $products->links('vendor.pagination.bootstrap-5') !!}
                         </div>
                     </div>
                 </div>
