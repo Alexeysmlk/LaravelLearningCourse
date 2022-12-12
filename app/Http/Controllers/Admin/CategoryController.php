@@ -15,12 +15,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(5);
+        $categories = Category::query()->paginate(5);
         return view('admin.categories.index', compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
+     *
      *
      * @return \Illuminate\Http\Response
      */
@@ -37,7 +38,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        Category::query()->create($request->all());
 
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -59,7 +62,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+
     }
 
     /**

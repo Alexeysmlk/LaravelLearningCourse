@@ -11,15 +11,16 @@
     <meta name="description"
           content="Xtreme Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/xtreme-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
+    <link rel="icon" type=" image/png" sizes="16x16" href="/assets/images/favicon.png">
     <!-- Custom CSS -->
-    <link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="{{asset('/assets/libs/chartist/dist/chartist.min.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/dist/css/style.min.css" rel="stylesheet">
+    <link href="{{asset('/dist/css/style.min.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -189,10 +190,6 @@
                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                  href="error-404.html" aria-expanded="false"><i class="mdi mdi-alert-outline"></i><span
                                 class="hide-menu">404</span></a></li>
-                    <li class="text-center p-40 upgrade-btn">
-                        <a href="https://www.wrappixel.com/templates/xtremeadmin/"
-                           class="btn d-block w-100 btn-danger text-white" target="_blank">Upgrade to Pro</a>
-                    </li>
                 </ul>
 
             </nav>

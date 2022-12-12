@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\FirstController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,14 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FirstController::class, 'index']);
+Route::get('/', [FirstController::class, 'index'])->name('main');
 
-Route::prefix('admin')->group(function (){
+Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function (){
     Route::get('/', [DashboardController::class, 'index']);
-    Route::resource('categories', CategoryController::class)
-        ->except('show');
-});
 
+    Route::name('admin.')->group(function (){
+        Route::resource('categories', CategoryController::class)
+            ->except('show');
+        Route::resource('products', ProductController::class)
+            ->except('show');
+    });
+});
 
 Auth::routes();
 
