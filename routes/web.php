@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\FirstController;
+use App\Http\Controllers\User\CallbackController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function (){
         Route::resource('products', ProductController::class)
             ->except('show');
     });
+});
+
+Route::prefix('user')->name('user.')->group(function (){
+    Route::resource('callbacks', CallbackController::class)
+        ->except('update', 'destroy', 'edit');
 });
 
 Auth::routes();
