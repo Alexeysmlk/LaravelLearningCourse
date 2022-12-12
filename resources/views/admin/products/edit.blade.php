@@ -41,43 +41,39 @@
                 <div class="col-lg-12 col-xlg-12 col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-horizontal form-material mx-2" method="post"
-                            action="{{route('admin.products.update', ['product'=>$product->id])}}" enctype="multipart/form-data">
+                            <form class="form-horizontal form-material mx-2"
+                                  method="post" action="{{route('admin.products.update',['product' => $product])}}">
+                                @method('PUT')
                                 @csrf
-                                @method('PATCH')
                                 <div class="form-group">
                                     <label class="col-md-12">Name</label>
                                     <div class="col-md-12">
                                         <input type="text" name="name"
-                                               class="form-control form-control-line"
-                                               value="{{$product->name}}">
+                                               class="form-control form-control-line" value="{{$product->name}}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Category</label>
                                     <div class="col-md-12">
-                                        <input type="text" name="category_id" class="form-control form-control-line"
-                                               value="{{$product->category}}">
+                                        <select  name="category_id" class="form-control form-control-line">
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}" @selected($category->id == $product->category_id)>{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Price</label>
                                     <div class="col-md-12">
-                                        <input type="number" name="price" class="form-control form-control-line"
-                                               value="{{$product->price}}">
+                                        <input type="text" name="price"
+                                               class="form-control form-control-line" value="{{$product->price}}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12">Image</label>
+                                    <label class="col-md-12">IMg</label>
                                     <div class="col-md-12">
-                                        <input type="file" name="img" class="form-control form-control-line"
-                                               value="{{$product->img}}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Status</label>
-                                    <div class="col-md-12">
-                                        <input type="checkbox" name="status" {{$product->status?"checked":null}} value="1">
+                                        <input type="file" name="img"
+                                               class="form-control form-control-line">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -87,8 +83,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-md-12">Is active</label>
+                                    <div class="col-md-12">
+                                        <input type="checkbox" name="status" value="1" @checked($product->status)>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input type="submit" class="btn-success text-white" value="Save info">
+                                        <button class="btn btn-success text-white">Save</button>
                                     </div>
                                 </div>
                             </form>
@@ -117,7 +120,7 @@
         <!-- ============================================================== -->
         <footer class="footer text-center">
             All Rights Reserved by Xtreme Admin. Designed and Developed by <a
-                    href="https://www.wrappixel.com">WrapPixel</a>.
+                href="https://www.wrappixel.com">WrapPixel</a>.
         </footer>
         <!-- ============================================================== -->
         <!-- End footer -->

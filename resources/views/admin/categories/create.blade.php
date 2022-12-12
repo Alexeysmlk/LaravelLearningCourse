@@ -42,7 +42,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form class="form-horizontal form-material mx-2" method="post"
-                            action="{{route('categories.store')}}">
+                            action="{{route('admin.categories.store')}}">
                                 @csrf
                                 <div class="form-group">
                                     <label class="col-md-12">Name</label>

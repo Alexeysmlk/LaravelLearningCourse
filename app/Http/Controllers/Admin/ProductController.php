@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use function GuzzleHttp\Promise\all;
 
 class ProductController extends Controller
 {
@@ -26,7 +31,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -35,9 +41,16 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $product = Product::query()->create($request->except('_token'));
+        $data = $request->all();
+        if ($request->hasFile('img')){
+            $path = Storage::disk('public')->putFile('ololo', $request->file('img'));
+            $data['img'] = $path;
+        }
+
+        Product::query()->create($data);
+
         return redirect()->route('admin.products.index');
     }
 
@@ -60,8 +73,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', [
+            'categories' => Category::all(),
+            'product' => $product,
+        ]);
     }
 
     /**
@@ -73,7 +88,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product = Product::query()->update($request->except(['_token', '_method']));
+        $product->fill($request->all())->save();
         return redirect()->route('admin.products.index');
     }
 
@@ -85,6 +100,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('admin.products.index');
     }
 }

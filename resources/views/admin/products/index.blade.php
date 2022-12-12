@@ -71,6 +71,11 @@
                                     <td>{{$product->description}}</td>
                                     <td>
                                         <a href="{{route('admin.products.edit', ['product' => $product->id])}}" class="label label-danger">Edit</a>
+                                        <form action="{{route('admin.products.destroy', ['product'=>$product->id])}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

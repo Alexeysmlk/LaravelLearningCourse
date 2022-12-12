@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = ['name', 'category_id', 'price', 'img', 'status', 'description'];
+
     use HasFactory;
 
-    public static function getRealPrice($price){
+    public static function getRealPrice($price): float|int
+    {
         return $price/100;
     }
 }

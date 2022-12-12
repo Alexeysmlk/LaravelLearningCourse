@@ -38,7 +38,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        Category::query()->create($request->all());
 
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -60,7 +62,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+
     }
 
     /**
