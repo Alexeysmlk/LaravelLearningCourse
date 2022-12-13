@@ -31,9 +31,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function (){
     });
 });
 
-Route::prefix('user')->name('user.')->group(function (){
-    Route::resource('callbacks', CallbackController::class)
-        ->except('update', 'destroy', 'edit');
+Route::middleware('auth')->prefix('user')->name('user.')->group(function (){
+    Route::get('callbacks', [CallbackController::class, 'index'])->name('callbacks.index');
+    Route::get('callbacks/create', [CallbackController::class, 'create'])->name('callbacks.create');
+    Route::post('callbacks', [CallbackController::class, 'store'])->name('callbacks.store');
+    Route::get('callbacks/{callback}', [CallbackController::class, 'show'])->name('callbacks.show');
 });
 
 Auth::routes();

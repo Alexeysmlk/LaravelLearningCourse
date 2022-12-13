@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Callback;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CallbackController extends Controller
 {
@@ -15,7 +17,8 @@ class CallbackController extends Controller
      */
     public function index()
     {
-
+        $callbacks = Callback::query()->where('user_id', Auth::id())->paginate(4);
+        return view('user.callbacks.index', compact('callbacks'));
     }
 
     /**
@@ -25,7 +28,7 @@ class CallbackController extends Controller
      */
     public function create()
     {
-        dd(4444);
+        return view('user.callbacks.create');
     }
 
     /**
@@ -36,7 +39,11 @@ class CallbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+
+        Callback::query()->create($data);
+        return redirect()->route('user.callbacks.index');
     }
 
     /**
@@ -47,40 +54,6 @@ class CallbackController extends Controller
      */
     public function show(Callback $callback)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Callback  $callback
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Callback $callback)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Callback  $callback
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Callback $callback)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Callback  $callback
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Callback $callback)
-    {
-        //
+        return view('user.callbacks.show', compact('callback'));
     }
 }
