@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCallbackRequest;
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Callback;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,7 +39,7 @@ class CallbackController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCallbackRequest $request)
     {
         $data = $request->all();
         $data['user_id'] = Auth::id();

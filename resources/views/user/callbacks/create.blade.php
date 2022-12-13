@@ -11,15 +11,23 @@
                         <label class="col-md-12">Title of request</label>
                         <div class="col-md-12">
                             <input type="text" placeholder="title"
-                                   class="form-control form-control-line"
-                                   name="title">
+                                   class="form-control form-control-line @error('title') is-invalid @enderror"
+                                   name="title"
+                                   value="{{old('title')}}">
                         </div>
+                        @foreach($errors->get('title') as $error)
+                            <p style="color:red">{{$error}}</p>
+                        @endforeach
                     </div>
                     <div class="form-group">
                         <label for="example-email" class="col-md-12">Text of request</label>
                         <div class="col-md-12">
-                            <textarea name="text" class="form-control form-control-line" placeholder="Text of request"></textarea>
+                            <textarea name="text" class="form-control form-control-line @error('text') is-invalid @enderror" placeholder="Text of request"
+                                      >{{old('text')}}</textarea>
                         </div>
+                        @foreach($errors->get('text') as $error)
+                            <p style="color: red">{{$error}}</p>
+                        @endforeach
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
