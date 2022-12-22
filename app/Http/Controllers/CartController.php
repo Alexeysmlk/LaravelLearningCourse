@@ -26,9 +26,7 @@ class CartController extends Controller
         $products = Product::query()
             ->whereIn('id', $productIds)
             ->get();
-        foreach ($products as $product){
-            dump($product->name, $cart[$product->id]);
-        }
 
+        return view('cart.show', compact('products', 'cart'));
     }
 }

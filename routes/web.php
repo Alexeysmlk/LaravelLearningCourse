@@ -21,18 +21,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [FirstController::class, 'index'])->name('main');
-Route::get('catalog', [CatalogController::class, 'catalog']);
+Route::get('catalog', [CatalogController::class, 'catalog'])->name('index.catalog');
 Route::get('catalog/{category}', [CatalogController::class, 'category']);
 Route::get('catalog/{category}/{product}', [CatalogController::class, 'product']);
 
-Route::get('test', function (){
-    $date = \Carbon\Carbon::parse('2022-12-12');
-    $date2 = \Carbon\Carbon::now();
-
-});
 
 Route::post('/add_to_cart', [CartController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [CartController::class, 'show']);
+
 
 Route::middleware('role:admin')->prefix('admin')->group(function (){
     Route::get('/', [DashboardController::class, 'index']);
