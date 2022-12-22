@@ -3,7 +3,10 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\FirstController;
+use App\Http\Controllers\User\CallbackController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +21,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [FirstController::class, 'index'])->name('main');
+Route::get('catalog', [CatalogController::class, 'catalog']);
+Route::get('catalog/{category}', [CatalogController::class, 'category']);
+Route::get('catalog/{category}/{product}', [CatalogController::class, 'product']);
 
-Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function (){
+Route::get('test', function (){
+    $date = \Carbon\Carbon::parse('2022-12-12');
+    $date2 = \Carbon\Carbon::now();
+
+});
+
+Route::post('/add_to_cart', [CartController::class, 'addToCart'])->name('addToCart');
+Route::get('/cart', [CartController::class, 'show']);
+
+Route::middleware('role:admin')->prefix('admin')->group(function (){
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::name('admin.')->group(function (){
@@ -28,6 +43,13 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function (){
         Route::resource('products', ProductController::class)
             ->except('show');
     });
+});
+
+Route::middleware('auth')->prefix('user')->name('user.')->group(function (){
+    Route::get('callbacks', [CallbackController::class, 'index'])->name('callbacks.index');
+    Route::get('callbacks/create', [CallbackController::class, 'create'])->name('callbacks.create');
+    Route::post('callbacks', [CallbackController::class, 'store'])->name('callbacks.store');
+    Route::get('callbacks/{callback}', [CallbackController::class, 'show'])->name('callbacks.show');
 });
 
 Auth::routes();

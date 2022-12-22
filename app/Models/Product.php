@@ -2,17 +2,50 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'category_id', 'price', 'img', 'status', 'description'];
 
-    use HasFactory;
+    protected $casts = [
+        'status' => 'boolean',
+        'properties' => 'array',
+    ];
+
+    public function getCreatedDateAttribute(){
+        return Carbon::parse($this->attributes['created_at'])
+            ->timezone('Europe/London')
+            ->timestamp;
+    }
 
     public static function getRealPrice($price): float|int
     {
         return $price/100;
     }
+
+    public function category(){
+
+        return $this->belongsTo(Category::class);
+    }
+
+    //page_price pagePrice
+    public function getPagePriceAttribute(){
+        return $this->attributes['price']/100;
+    }
+
+    public function setPriceAttribute($value){
+        $this->attributes['price'] = $value * 100;
+    }
+
+//    public function pagePrice(){
+//        return Attribute::make(
+//            get: fn($value) => $value/100
+//        );
+//    }
 }
