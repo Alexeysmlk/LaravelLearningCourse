@@ -22,8 +22,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [FirstController::class, 'index'])->name('main');
 Route::get('catalog', [CatalogController::class, 'catalog'])->name('index.catalog');
-Route::get('catalog/{category}', [CatalogController::class, 'category']);
+Route::get('catalog/{category}', [CatalogController::class, 'category'])
+    ->name('catalog.category');
 Route::get('catalog/{category}/{product}', [CatalogController::class, 'product']);
+
+Route::get('/test', function (){
+//    $product = \App\Models\Product::query()->find(4);
+//    $product->title;
+
+});
 
 
 Route::post('/add_to_cart', [CartController::class, 'addToCart'])->name('addToCart');
