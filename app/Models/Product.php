@@ -43,9 +43,13 @@ class Product extends Model
         $this->attributes['price'] = $value * 100;
     }
 
-//    public function pagePrice(){
-//        return Attribute::make(
-//            get: fn($value) => $value/100
-//        );
-//    }
+    public function scopeActive($query){
+        $query->where('status', 1);
+    }
+
+    public function scopeFilter($query, array $categories = []){
+        if ($categories){
+            $query->whereIn('category_id', $categories);
+        }
+    }
 }
