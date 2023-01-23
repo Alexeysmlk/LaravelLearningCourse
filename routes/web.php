@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\FirstController;
 use App\Http\Controllers\User\CallbackController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,21 +27,27 @@ Route::get('catalog/{category}', [CatalogController::class, 'category'])
     ->name('catalog.category');
 Route::get('catalog/{category}/{product}', [CatalogController::class, 'product']);
 
-Route::get('/test', function (){
-//    $product = \App\Models\Product::query()->find(4);
-//    $product->title;
-
+Route::get('/test', function () {
+    $response = Http::get('http://api.weatherapi.com/v1/current.json',
+        [
+            'key' => '2b84a396c0bc46338ea184244222712',
+            'q' => 'Minsk',
+        ]
+    );
+    $data = $response->json();
+    dump($data['current']['temp_f']);
 });
 
 
 Route::post('/add_to_cart', [CartController::class, 'addToCart'])->name('addToCart');
 Route::get('/cart', [CartController::class, 'show']);
+Route::get('/cart_products', [CartController::class, 'getCartProducts']);
 
 
-Route::middleware('role:admin')->prefix('admin')->group(function (){
+Route::middleware('role:admin')->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
 
-    Route::name('admin.')->group(function (){
+    Route::name('admin.')->group(function () {
         Route::resource('categories', CategoryController::class)
             ->except('show');
         Route::resource('products', ProductController::class)
@@ -48,7 +55,7 @@ Route::middleware('role:admin')->prefix('admin')->group(function (){
     });
 });
 
-Route::middleware('auth')->prefix('user')->name('user.')->group(function (){
+Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
     Route::get('callbacks', [CallbackController::class, 'index'])->name('callbacks.index');
     Route::get('callbacks/create', [CallbackController::class, 'create'])->name('callbacks.create');
     Route::post('callbacks', [CallbackController::class, 'store'])->name('callbacks.store');
