@@ -4,7 +4,7 @@ pipeline {
          stage('Docker build') {
                     steps {
                         sh 'echo ======= docker build ====='
-//                         sh 'docker-compose stop'
+                        sh 'docker-compose stop'
                         sh 'cp .env.staging .env'
                         sh 'docker-compose build'
                         sh 'docker-compose up -d'
